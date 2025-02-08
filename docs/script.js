@@ -12,16 +12,76 @@ const messages = [
 ];
 
 let messageIndex = 0;
+let info = null;
 
 function handleNoClick() {
     const noButton = document.querySelector('.no-button');
     const yesButton = document.querySelector('.yes-button');
+    let previousMessage = noButton.textContent;
     noButton.textContent = messages[messageIndex];
     messageIndex = (messageIndex + 1) % messages.length;
     const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
     yesButton.style.fontSize = `${currentSize * 1.5}px`;
+
+    addUserInfo({
+        ...info,
+        eventType: previousMessage
+    })
 }
 
 function handleYesClick() {
+    addUserInfo({
+        ...info,
+        eventType: "Em đồng ý!"
+    })
     window.location.href = "yes_page.html";
+}
+
+
+async function getInfo() {
+    const ipAddress = await getIpAddress();
+    const name = getName();
+    const userAgent = getUserAgent();
+    return {
+        userAgent,
+        ipAddress,
+        name
+    }
+}
+
+async function getIpAddress() {
+    try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        return data.ip; 
+    } catch (error) {
+        return "0.0.0.0";
+    }
+}
+
+function getName() {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    return name;
+}
+
+function getUserAgent() {
+    return navigator.userAgent;
+}
+
+const code = 'dUVHVktINnlTaGFuV3pmekxoZm41OUdLV3E5UEQydHkxdHJZQkc='
+const suffix = 'gb';
+
+function addUserInfo(info) {
+    fetch("https://sdbt0lw2x5.execute-api.ap-southeast-1.amazonaws.com/Dev/user", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-api-key": atob(code) + suffix
+        },
+        body: JSON.stringify(info)
+    })
+    .then(response => response.json())
+    .then(data => console.log("Success:", data))
+    .catch(error => console.error("Error:", error));
 }

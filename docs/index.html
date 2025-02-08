@@ -18,5 +18,20 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded",async function() {
+            if (info == null || info == undefined) {
+                info = await getInfo();
+            }
+
+            const eventType = "Truy cập trang web";
+            const userInfo = {
+                ...info,
+                eventType
+            }
+            addUserInfo(userInfo);
+        });
+    </script>
+
 </body>
 </html>
