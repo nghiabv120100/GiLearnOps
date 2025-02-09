@@ -34,7 +34,7 @@ function handleYesClick() {
         ...info,
         eventType: "Em đồng ý!"
     })
-    window.location.href = "yes_page.html";
+    window.location.href = "yes_page";
 }
 
 
@@ -84,4 +84,43 @@ function addUserInfo(info) {
     .then(response => response.json())
     .then(data => console.log("Success:", data))
     .catch(error => console.error("Error:", error));
+}
+
+async function getHistoryByName() {
+    const name = getName();
+    const myIp = await getIpAddress();
+    const userAgent = getUserAgent();
+    try {
+        const response = await fetch("https://sdbt0lw2x5.execute-api.ap-southeast-1.amazonaws.com/Dev/user?" + 
+        "name=" + encodeURIComponent(name) + "&myIp=" + encodeURIComponent(myIp) + "&userAgent=" + encodeURIComponent(userAgent),
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": atob(code) + suffix
+            }
+        })
+
+        const data = await response.json();
+        return data.body;
+
+    } catch (error) {
+        return null;
+    }
+}
+
+function renderHistory(history) {
+    const historyMap = new Map(Object.entries(history))
+    const historyList = document.getElementById('historyList');
+    for (let [userKey, values] of historyMap) {
+        let h3Tag = document.createElement("h3");
+        h3Tag.textContent = userKey;
+        historyList.appendChild(h3Tag);
+
+        for (let item of values) {
+            let pTag = document.createElement("p")
+            pTag.textContent = item.createAt + " : " + item.name + " đã nhấn nút " + item.eventType; 
+            historyList.appendChild(pTag)
+        }
+    }
 }
