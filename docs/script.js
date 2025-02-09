@@ -92,7 +92,7 @@ async function getHistoryByName() {
     const userAgent = getUserAgent();
     try {
         const response = await fetch("https://sdbt0lw2x5.execute-api.ap-southeast-1.amazonaws.com/Dev/user?" + 
-        "name=" + encodeURIComponent(name) + "&myIp=" + encodeURIComponent(myIp) + "&userAgent=" + encodeURIComponent(userAgent),
+        "name=" + encodeURIComponent(name) + "&myIp=" + encodeURIComponent(myIp) + "&myUserAgent=" + encodeURIComponent(userAgent),
         {
             method: "GET",
             headers: {
