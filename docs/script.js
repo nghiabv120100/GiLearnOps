@@ -119,7 +119,9 @@ function renderHistory(history) {
 
         for (let item of values) {
             let pTag = document.createElement("p")
-            pTag.textContent = item.createAt + " : " + item.name + " đã nhấn nút " + item.eventType; 
+            const textEvent = item.eventType == 'Vẫn chưa truy cập trang web' ?  item.createdAt + " : " + item.name + ' Vẫn chưa truy cập trang web'
+            :  item.createdAt + " : " + item.name + " đã nhấn nút " + item.eventType;
+            pTag.textContent =  textEvent;
             historyList.appendChild(pTag)
         }
     }
