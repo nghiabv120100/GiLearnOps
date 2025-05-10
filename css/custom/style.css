@@ -90,3 +90,62 @@ header ul li a:hover {
 header .menu-toggle {
     display: none;
 }
+
+/* Media Queries */
+
+@media only screen and (max-width: 750px) {
+    header {
+        position: relative;
+    }
+
+    header ul {
+        width: 100%;
+        background: #0E94A0;
+        overflow: hidden;
+        max-height: 0px;
+    }
+
+    .showing {
+        max-height: 100em;
+    }
+    
+    header ul li {
+        width: 100%;
+    }
+
+    header ul li ul {
+        position: static;
+        display: block;
+        width: 100%;
+        background: inherit;
+    }
+
+
+    
+    header ul li ul li a {
+        padding: 10px;
+        background: #0E94A0;
+        color: white;
+        padding-left: 50px;
+    }
+
+    header ul li ul li a:hover {
+        background: #006669;
+    }
+
+    header ul li ul li a.logout {
+        color: red;
+    }
+
+    header .menu-toggle {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 1.9em;
+    }
+
+    header .logo {
+        margin-left: .5em;
+    }
+}
